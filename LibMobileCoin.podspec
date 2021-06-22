@@ -29,7 +29,8 @@ Pod::Spec.new do |s|
   # s.vendored_library = "Artifacts/libmobilecoin.a"
 
   s.preserve_paths = [
-    'Artifacts/target/*/release/libmobilecoin_stripped.a'
+    'Artifacts/target/x86_64-apple-ios/release/libmobilecoin_stripped.a',
+    'Artifacts/target/aarch64-apple-ios/release/libmobilecoin_stripped.a'
   ]
 
 
@@ -49,7 +50,7 @@ Pod::Spec.new do |s|
     "ENABLE_BITCODE" => "NO",
     # HACK: this forces the libmobilecoin.a static archive to be included when the
     # linker is linking LibMobileCoin as a shared framework
-    "OTHER_LDFLAGS" => "-u _mc_string_free",
+    "OTHER_LDFLAGS" => "-u _mc_string_free $(LIBSIGNAL_FFI_LIB_IF_NEEDED)",
     # Mac Catalyst is not supported since this library includes a vendored binary
     # that only includes support for iOS archictures.
     "SUPPORTS_MACCATALYST" => "NO",
@@ -63,7 +64,7 @@ Pod::Spec.new do |s|
     # Make sure we link the static library, not a dynamic one.
     # Use an extra level of indirection because CocoaPods messes with OTHER_LDFLAGS too.
     'LIBSIGNAL_FFI_LIB_IF_NEEDED' => '$(PODS_TARGET_SRCROOT)/Artifacts/target/$(CARGO_BUILD_TARGET)/release/libmobilecoin_stripped.a',
-    'OTHER_LDFLAGS' => '$(LIBSIGNAL_FFI_LIB_IF_NEEDED)',
+    # 'OTHER_LDFLAGS' => '$(LIBSIGNAL_FFI_LIB_IF_NEEDED)',
 
     # 'CARGO_BUILD_TARGET[sdk=iphonesimulator*][arch=arm64]' => 'aarch64-apple-ios-sim',
     # 'CARGO_BUILD_TARGET[sdk=iphonesimulator*][arch=*]' => 'x86_64-apple-ios',
