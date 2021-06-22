@@ -10,7 +10,7 @@ default: setup build generate
 .PHONY: setup
 setup:
 	cd "$(LIBMOBILECOIN_LIB_DIR)" && $(MAKE) setup
-	bundle install
+	bundle _2.1.4_ install
 
 # Unexport conditional environment variables so the build is more predictable
 unexport SGX_MODE
@@ -45,7 +45,7 @@ publish: tag-release publish-podspec
 tag-release:
 	@[[ "$$(git rev-parse --abbrev-ref HEAD)" == "master" ]] || \
 		{ echo 'Error: Must be on branch "master" when tagging a release.'; exit 1; }
-	VERSION="$$(bundle exec pod ipc spec LibMobileCoin.podspec | jq -r '.version')" && \
+	VERSION="$$(bundle _2.1.4_ exec pod ipc spec LibMobileCoin.podspec | jq -r '.version')" && \
 		git tag "v$$VERSION" && \
 		git push git@github.com:mobilecoinofficial/libmobilecoin-ios-artifacts.git "refs/tags/v$$VERSION"
 
@@ -53,8 +53,8 @@ tag-release:
 
 .PHONY: lint-podspec
 lint-podspec:
-	bundle exec pod spec lint LibMobileCoin.podspec --allow-warnings
+	bundle _2.1.4_ exec pod spec lint LibMobileCoin.podspec --allow-warnings
 
 .PHONY: publish-podspec
 publish-podspec:
-	bundle exec pod trunk push LibMobileCoin.podspec --allow-warnings
+	bundle _2.1.4_exec pod trunk push LibMobileCoin.podspec --allow-warnings
