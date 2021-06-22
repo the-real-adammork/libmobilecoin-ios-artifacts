@@ -26,7 +26,11 @@ Pod::Spec.new do |s|
     "Sources/Generated/Proto/*.{grpc,pb}.swift",
   ]
 
-  s.vendored_library = "Artifacts/libmobilecoin.a"
+  # s.vendored_library = "Artifacts/libmobilecoin.a"
+
+  s.preserve_paths = [
+    'Artifacts/target/*/release/libmobilecoin_stripped.a'
+  ]
 
 
   # ――― Dependencies ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -55,6 +59,25 @@ Pod::Spec.new do |s|
     # arm64 simulator. Note: 32-bit is officially dropped in iOS 11
     "VALID_ARCHS[sdk=iphoneos*]" => "arm64",
     "VALID_ARCHS[sdk=iphonesimulator*]" => "x86_64",
+
+    # Make sure we link the static library, not a dynamic one.
+    # Use an extra level of indirection because CocoaPods messes with OTHER_LDFLAGS too.
+    'LIBSIGNAL_FFI_LIB_IF_NEEDED' => '$(PODS_TARGET_SRCROOT)/Artifacts/target/$(CARGO_BUILD_TARGET)/release/libmobilecoin_stripped.a',
+    'OTHER_LDFLAGS' => '$(LIBSIGNAL_FFI_LIB_IF_NEEDED)',
+
+    # 'CARGO_BUILD_TARGET[sdk=iphonesimulator*][arch=arm64]' => 'aarch64-apple-ios-sim',
+    # 'CARGO_BUILD_TARGET[sdk=iphonesimulator*][arch=*]' => 'x86_64-apple-ios',
+    'CARGO_BUILD_TARGET[sdk=iphonesimulator*]' => 'x86_64-apple-ios',
+    'CARGO_BUILD_TARGET[sdk=iphoneos*]' => 'aarch64-apple-ios',
+    # Presently, there's no special SDK or arch for maccatalyst,
+    # so we need to hackily use the "IS_MACCATALYST" build flag
+    # to set the appropriate cargo target
+    # 'CARGO_BUILD_TARGET_MAC_CATALYST_ARM_# ' => # 'aarch64-apple-darwin# ',
+    # 'CARGO_BUILD_TARGET_MAC_CATALYST_ARM_YES# ' => # 'aarch64-apple-ios-macabi# ',
+    # 'CARGO_BUILD_TARGET[sdk=macosx*][arch=arm64]# ' => # '$(CARGO_BUILD_TARGET_MAC_CATALYST_ARM_$(IS_MACCATALYST))# ',
+    # 'CARGO_BUILD_TARGET_MAC_CATALYST_X86_# ' => # 'x86_64-apple-darwin# ',
+    # 'CARGO_BUILD_TARGET_MAC_CATALYST_X86_YES# ' => # 'x86_64-apple-ios-macabi# ',
+    # 'CARGO_BUILD_TARGET[sdk=macosx*][arch=*]# ' => # '$(CARGO_BUILD_TARGET_MAC_CATALYST_X86_$(IS_MACCATALYST))# ',
   }
 
   # `user_target_xcconfig` should only be set when the setting needs to propogate to
