@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
   # s.vendored_library = "Artifacts/libmobilecoin.a"
 
   s.preserve_paths = [
-    'Artifacts/target/*/release/libmobilecoin_stripped.a'
+    'LibMobileCoin/Artifacts/target/*/release/libmobilecoin_stripped.a'
   ]
 
 
