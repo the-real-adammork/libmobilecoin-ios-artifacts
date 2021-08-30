@@ -402,7 +402,7 @@ public struct FogLedger_BlockResponse {
   // methods supported on all messages.
 
   //// The block data returned by the server
-  public var blocks: [FogLedger_Block] = []
+  public var blocks: [FogLedger_BlockData] = []
 
   //// The total number of blocks in the ledger at the time the request is evaluated
   public var numBlocks: UInt64 = 0
@@ -415,7 +415,7 @@ public struct FogLedger_BlockResponse {
   public init() {}
 }
 
-public struct FogLedger_Block {
+public struct FogLedger_BlockData {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -924,8 +924,8 @@ extension FogLedger_BlockResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
   }
 }
 
-extension FogLedger_Block: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  public static let protoMessageName: String = _protobuf_package + ".Block"
+extension FogLedger_BlockData: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".BlockData"
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "index"),
     2: .standard(proto: "global_txo_count"),
@@ -969,7 +969,7 @@ extension FogLedger_Block: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  public static func ==(lhs: FogLedger_Block, rhs: FogLedger_Block) -> Bool {
+  public static func ==(lhs: FogLedger_BlockData, rhs: FogLedger_BlockData) -> Bool {
     if lhs.index != rhs.index {return false}
     if lhs.globalTxoCount != rhs.globalTxoCount {return false}
     if lhs.outputs != rhs.outputs {return false}
