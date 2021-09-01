@@ -359,10 +359,8 @@ public struct FogLedger_KeyImageResult {
   public var spentAt: UInt64 = 0
 
   //// The timestamp of the block containing this key image.
-  //// The value is u64::MAX if the timestamp cannot be found.
-  //// If the timestamp cannot be found, even when key_image_result_code == Spent,
-  //// that represents an internal error of the server
-  //// which should be reported to the developers.
+  //// The value is u64::MAX if the timestamp cannot be found. Callers must check the
+  //// timestamp_result_code to determine why the timestamp could not be found.
   //// Note: The timestamps are based on untrusted reporting of time from the consensus validators.
   //// Represented as seconds of UTC time since Unix epoch 1970-01-01T00:00:00Z.
   public var timestamp: UInt64 = 0
@@ -372,9 +370,6 @@ public struct FogLedger_KeyImageResult {
   //// This is fixed32 to avoid leaking information about found / not found in the size of the encrypted
   //// payload.
   //// The possible values are described in enum TimestampResultCode.
-  //// This is a legacy result code which was forwarded by ledger server from the Watcher db API if a timestamp is not available.
-  //// The ledger server now handles all of these errors and the result will always be `TimestampFound`.
-  //// Clients should ignore this value, and in a future revision we may make it always zero.
   public var timestampResultCode: UInt32 = 0
 
   //// The result code indicating whether the key image was spent.
