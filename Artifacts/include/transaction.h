@@ -16,7 +16,6 @@ extern "C" {
 /* ==== Types ==== */
 
 typedef struct {
-  const McBuffer* MC_NONNULL commitment;
   uint64_t masked_value;
 } McTxOutAmount;
 
