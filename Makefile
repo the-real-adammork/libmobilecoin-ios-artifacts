@@ -1,5 +1,5 @@
-FOG_DIR = Vendor/fog
-LIBMOBILECOIN_LIB_DIR = $(FOG_DIR)/libmobilecoin
+MOBILECOIN_DIR = Vendor/fog
+LIBMOBILECOIN_LIB_DIR = $(MOBILECOIN_DIR)/libmobilecoin
 LIBMOBILECOIN_ARTIFACTS_DIR = $(LIBMOBILECOIN_LIB_DIR)/out/ios
 ARTIFACTS_DIR = Artifacts
 IOS_TARGETS = x86_64-apple-ios aarch64-apple-ios
