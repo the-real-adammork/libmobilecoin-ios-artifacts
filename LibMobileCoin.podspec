@@ -66,7 +66,7 @@ Pod::Spec.new do |s|
 
     # Make sure we link the static library, not a dynamic one.
     # Use an extra level of indirection because CocoaPods messes with OTHER_LDFLAGS too.
-    'LIBMOBILECOIN_FFI_LIB_IF_NEEDED' => '$(PODS_TARGET_SRCROOT)/Artifacts/$(CARGO_BUILD_TARGET)/release/libmobilecoin_stripped.a',
+    'LIBMOBILECOIN_FFI_LIB_IF_NEEDED' => '$(PODS_TARGET_SRCROOT)/Artifacts/$(CARGO_BUILD_TARGET)/libmobilecoin_stripped.a',
 
     # HACK: this forces the libmobilecoin.a static archive to be included when the
     # linker is linking LibMobileCoin as a shared framework
