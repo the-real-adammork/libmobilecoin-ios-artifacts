@@ -1,6 +1,3 @@
-[submodule "Vendor/fog"]
-	path = Vendor/fog
-	url = git@github.com:the-real-adammork/fog.git 
 [submodule "Vendor/mobilecoin"]
 	path = Vendor/mobilecoin
 	url = git@github.com:mobilecoinfoundation/mobilecoin.git
