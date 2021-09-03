@@ -1,8 +1,0 @@
-[package]
-name = "mc-sgx-enclave-id"
-version = "1.1.2"
-authors = ["MobileCoin"]
-edition = "2018"
-
-[dependencies]
-mc-sgx-types = { path = "../types" }

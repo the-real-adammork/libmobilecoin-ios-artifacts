@@ -1,3 +1,0 @@
-## util
-
-Miscellaneous utilities.
