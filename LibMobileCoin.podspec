@@ -55,8 +55,8 @@ Pod::Spec.new do |s|
     # for iphonesimulator. This must be manually configured to avoid Xcode's default
     # setting of building 32-bit and Xcode 12's default setting of including the
     # arm64 simulator. Note: 32-bit is officially dropped in iOS 11
-    "VALID_ARCHS[sdk=iphoneos*]" => "arm64",
-    "VALID_ARCHS[sdk=iphonesimulator*]" => "x86_64",
+    # "VALID_ARCHS[sdk=iphoneos*]" => "arm64",
+    # "VALID_ARCHS[sdk=iphonesimulator*]" => "x86_64 arm64",
 
 
     "HEADER_SEARCH_PATHS": "$(PODS_TARGET_SRCROOT)/Artifacts/include",
@@ -86,8 +86,8 @@ Pod::Spec.new do |s|
   s.user_target_xcconfig = {
     "ENABLE_BITCODE" => "NO",
     "SUPPORTS_MACCATALYST" => "NO",
-    "VALID_ARCHS[sdk=iphoneos*]" => "arm64",
-    "VALID_ARCHS[sdk=iphonesimulator*]" => "x86_64 arm64",
+    # "VALID_ARCHS[sdk=iphoneos*]" => "arm64",
+    # "VALID_ARCHS[sdk=iphonesimulator*]" => "x86_64 arm64",
   }
 
 end
