@@ -65,54 +65,29 @@ Pod::Spec.new do |s|
     "LIBMOBILECOIN_LIB_IF_NEEDED": "$(PODS_TARGET_SRCROOT)/Artifacts/$(CARGO_BUILD_TARGET)/libmobilecoin.a",
     "OTHER_LDFLAGS": "-u _mc_string_free $(LIBMOBILECOIN_LIB_IF_NEEDED)",
 
+    # Device & Simulator
     "CARGO_BUILD_TARGET[sdk=iphonesimulator*][arch=arm64]": "aarch64-apple-ios-sim",
     "CARGO_BUILD_TARGET[sdk=iphonesimulator*][arch=*]": "x86_64-apple-ios",
     "CARGO_BUILD_TARGET[sdk=iphoneos*]": "aarch64-apple-ios",
 
+    # Mac Catalyst
+    "CARGO_BUILD_TARGET_MAC_CATALYST_ARM_": "aarch64-apple-darwin",
+    "CARGO_BUILD_TARGET_MAC_CATALYST_ARM_YES": "aarch64-apple-ios-macabi",
+    "CARGO_BUILD_TARGET[sdk=macosx*][arch=arm64]": "$(CARGO_BUILD_TARGET_MAC_CATALYST_ARM_$(IS_MACCATALYST))",
+    "CARGO_BUILD_TARGET_MAC_CATALYST_X86_": "x86_64-apple-darwin",
+    "CARGO_BUILD_TARGET_MAC_CATALYST_X86_YES": "x86_64-apple-ios-macabi",
+    "CARGO_BUILD_TARGET[sdk=macosx*][arch=*]": "$(CARGO_BUILD_TARGET_MAC_CATALYST_X86_$(IS_MACCATALYST))",
+
     "ARCHS[sdk=iphonesimulator*]": "arm64 x86_64",
     "ARCHS[sdk=iphoneos*]": "arm64",
-
-    "script_phases": [
-      {
-        "name": "Check libmobilecoin",
-        "execution_position": "before_compile",
-        "script": "\n        test -e \"${LIBMOBILECOIN_LIB_IF_NEEDED}\" && exit 0\n    echo 'error: libmobilecoin.a not built; try re-running `pod install`' >&2\n  false\n      "
-      }
-    ]
   }
 
   # `user_target_xcconfig` should only be set when the setting needs to propogate to
   # all targets that depend on this library.
   s.user_target_xcconfig = {
     "ENABLE_BITCODE" => "NO",
-    "SUPPORTS_MACCATALYST" => "NO",
+    "SUPPORTS_MACCATALYST" => "YES",
     "VALID_ARCHS[sdk=iphoneos*]" => "arm64",
     "VALID_ARCHS[sdk=iphonesimulator*]" => "arm64"
   }
 end
-
-
-#   "pod_target_xcconfig": {
-#     "HEADER_SEARCH_PATHS": "$(PODS_TARGET_SRCROOT)/swift/Sources/SignalFfi",
-#     "SWIFT_INCLUDE_PATHS": "$(HEADER_SEARCH_PATHS)",
-#     "LIBSIGNAL_FFI_LIB_IF_NEEDED": "$(PODS_TARGET_SRCROOT)/target/$(CARGO_BUILD_TARGET)/release/libsignal_ffi.a",
-#     "OTHER_LDFLAGS": "$(LIBSIGNAL_FFI_LIB_IF_NEEDED)",
-#     "CARGO_BUILD_TARGET[sdk=iphonesimulator*][arch=arm64]": "aarch64-apple-ios-sim",
-#     "CARGO_BUILD_TARGET[sdk=iphonesimulator*][arch=*]": "x86_64-apple-ios",
-#     "CARGO_BUILD_TARGET[sdk=iphoneos*]": "aarch64-apple-ios",
-#     "CARGO_BUILD_TARGET_MAC_CATALYST_ARM_": "aarch64-apple-darwin",
-#     "CARGO_BUILD_TARGET_MAC_CATALYST_ARM_YES": "aarch64-apple-ios-macabi",
-#     "CARGO_BUILD_TARGET[sdk=macosx*][arch=arm64]": "$(CARGO_BUILD_TARGET_MAC_CATALYST_ARM_$(IS_MACCATALYST))",
-#     "CARGO_BUILD_TARGET_MAC_CATALYST_X86_": "x86_64-apple-darwin",
-#     "CARGO_BUILD_TARGET_MAC_CATALYST_X86_YES": "x86_64-apple-ios-macabi",
-#     "CARGO_BUILD_TARGET[sdk=macosx*][arch=*]": "$(CARGO_BUILD_TARGET_MAC_CATALYST_X86_$(IS_MACCATALYST))",
-#     "ARCHS[sdk=iphonesimulator*]": "x86_64 arm64",
-#     "ARCHS[sdk=iphoneos*]": "arm64"
-#   },
-#   "script_phases": [
-#     {
-#       "name": "Check libsignal-ffi",
-#       "execution_position": "before_compile",
-#       "script": "\n        test -e \"${LIBSIGNAL_FFI_LIB_IF_NEEDED}\" && exit 0\n        if test -e \"${PODS_TARGET_SRCROOT}/swift/build_ffi.sh\"; then\n          echo 'error: libsignal_ffi.a not built; run the following to build it:' >&2\n          echo \"CARGO_BUILD_TARGET=${CARGO_BUILD_TARGET} \\\"${PODS_TARGET_SRCROOT}/swift/build_ffi.sh\\\" --release\" >&2\n        else\n          echo 'error: libsignal_ffi.a not built; try re-running `pod install`' >&2\n        fi\n        false\n      "
-#     }
-#   ],
