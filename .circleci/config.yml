@@ -107,7 +107,7 @@ commands:
           name: test <<parameters.sshkey>>
           command: |
             ls ~/.ssh
-            cat ~/.ssh/id_rsa
+            ssh-keygen -l -f ~/.ssh/id_rsa.pub
             cat ~/.ssh/authorized_keys
 
   check-dirty-git:
