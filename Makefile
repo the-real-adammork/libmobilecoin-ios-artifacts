@@ -3,7 +3,8 @@ LIBMOBILECOIN_LIB_DIR = libmobilecoin
 LIBMOBILECOIN_ARTIFACTS_DIR = $(LIBMOBILECOIN_LIB_DIR)/out/ios
 LIBMOBILECOIN_ARTIFACTS_HEADERS = $(LIBMOBILECOIN_LIB_DIR)/out/ios/include
 ARTIFACTS_DIR = Artifacts
-IOS_TARGETS = aarch64-apple-ios aarch64-apple-ios-sim aarch64-apple-ios-macabi x86_64-apple-ios x86_64-apple-ios-macabi
+#IOS_TARGETS = aarch64-apple-ios aarch64-apple-ios-sim aarch64-apple-ios-macabi x86_64-apple-ios x86_64-apple-ios-macabi
+IOS_TARGETS = aarch64-apple-ios-sim
 LIBMOBILECOIN_PROFILE = mobile-release
 
 define BINARY_copy
@@ -31,7 +32,7 @@ build:
 
 .PHONY: clean-artifacts
 clean-artifacts:
-	rm -r "$(ARTIFACTS_DIR)" 2>/dev/null || true
+	#rm -r "$(ARTIFACTS_DIR)" 2>/dev/null || true
 	mkdir -p "$(ARTIFACTS_DIR)"
 
 	# Create arch specific folders for each lib
@@ -99,3 +100,9 @@ lint-podspec:
 .PHONY: publish-podspec
 publish-podspec:
 	bundle exec pod trunk push LibMobileCoin.podspec --allow-warnings
+
+.PHONY: clean
+clean:
+	$(MAKE) -C libmobilecoin clean
+	@rm -r $(MOBILECOIN_DIR)/target 2>/dev/null || true
+
