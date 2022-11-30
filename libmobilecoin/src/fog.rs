@@ -7,8 +7,10 @@ use mc_account_keys::PublicAddress;
 use mc_attest_verifier::Verifier;
 use mc_crypto_keys::{ReprBytes, RistrettoPrivate, RistrettoPublic};
 use mc_fog_kex_rng::{BufferedRng, KexRngPubkey, NewFromKex, StoredRng, VersionedKexRng};
+use mc_fog_report_types::{FogReportResponses, ReportResponse};
+use mc_fog_report_resolver::{FogResolver};
 use mc_fog_report_validation::{
-    FogPubkeyResolver, FogReportResponses, FogResolver, FullyValidatedFogPubkey,
+    FogPubkeyResolver, FullyValidatedFogPubkey
 };
 use mc_util_ffi::*;
 use mc_util_serial::Message;
